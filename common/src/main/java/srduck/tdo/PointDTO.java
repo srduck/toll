@@ -10,6 +10,7 @@ public class PointDTO {
     private double lat;
     private double lon;
     private String autoId;
+    private long time;
 
     public double getLat() {
         return lat;
@@ -35,10 +36,19 @@ public class PointDTO {
         this.autoId = autoId;
     }
 
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
     public String toJson() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(this);
     }
+
 
     @Override
     public String toString() {
@@ -46,6 +56,7 @@ public class PointDTO {
                 "lat=" + lat +
                 ", lon=" + lon +
                 ", autoId='" + autoId + '\'' +
+                ", time=" + time +
                 '}';
     }
 }
