@@ -1,4 +1,4 @@
-package srduck.tdo;
+package srduck.dto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -33,5 +33,4 @@ public class PointDTOTest {
         assertEquals(autoId, dto.getAutoId());
         assertEquals(1499366527878L, dto.getTime());
     }
-
 }
