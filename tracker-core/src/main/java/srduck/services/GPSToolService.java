@@ -55,7 +55,7 @@ public class GPSToolService {
     }
 
     //Получение списка коодинат из kml-файла
-    private ArrayList<Coordinate> getGps(){
+    public ArrayList<Coordinate> getGps(){
 
         ArrayList<Coordinate> coordinateList = new ArrayList<Coordinate>();
         ClassLoader classLoader = getClass().getClassLoader();
