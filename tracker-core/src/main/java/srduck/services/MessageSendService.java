@@ -8,13 +8,13 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import srduck.dto.GPSRecordDTO;
 
-import java.util.List;
 
 /**
  * Created by igor on 21.07.2017.
  */
 @Service
 public class MessageSendService {
+
     private static Logger log = LoggerFactory.getLogger(MessageSendService.class);
 
     @Autowired
@@ -23,16 +23,14 @@ public class MessageSendService {
     @Scheduled(cron = "${cron.prop.get}")
     private void send () throws InterruptedException{
 
-        List<GPSRecordDTO> recordsDTO = messageStorageService.take();
+        int messageQuantity = messageStorageService.getQueueSize();
 
-        if (recordsDTO != null && recordsDTO.size() > 0){
-            for(GPSRecordDTO record : recordsDTO){
-                try {
-                    log.info(record.toJson());
-
-                } catch (JsonProcessingException jpe) {
-                    jpe.printStackTrace();
-                }
+        for(int i = 0; i < messageQuantity; i++){
+            GPSRecordDTO record = messageStorageService.take();
+            try {
+                log.info(record.toJson());
+            } catch (JsonProcessingException jpe) {
+                jpe.printStackTrace();
             }
         }
 
