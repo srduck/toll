@@ -8,6 +8,7 @@ import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.ResourceAccessException;
 import srduck.dto.Coordinates;
 import srduck.dto.GPSRecordDTO;
 
@@ -49,16 +50,28 @@ public class MessageSendService {
                 ResponseEntity<Boolean> answer = restTemplate.exchange("http://localhost:8080/coords", HttpMethod.POST, coord, Boolean.class);
 
                 if(!answer.getBody()){
-                    log.info("Returning of coordinates to queue");
-                    messageStorageService.putFirst(record);
+                    returnToQueue(record, "Server Error");
+                    return;
                 }
 
                 log.info(record.toJson());
 
-            } catch (JsonProcessingException jpe) {
+            }
+            catch (JsonProcessingException jpe) {
                 jpe.printStackTrace();
             }
+            catch (ResourceAccessException ex){
+                returnToQueue(record, "ResourceAccessException");
+                return;
+            }
+
         }
 
     }
+
+    private void returnToQueue(GPSRecordDTO record, String error) throws InterruptedException{
+        log.info("Returning of coordinates to queue : " + error);
+        messageStorageService.putFirst(record);
+    }
+
 }
