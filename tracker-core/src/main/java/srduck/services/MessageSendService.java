@@ -4,8 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import srduck.dto.Coordinates;
 import srduck.dto.GPSRecordDTO;
 
 
@@ -20,15 +23,38 @@ public class MessageSendService {
     @Autowired
     MessageStorageService messageStorageService;
 
+    @Autowired
+    RestTemplate restTemplate;
+
     @Scheduled(cron = "${cron.prop.get}")
     private void send () throws InterruptedException{
 
         int messageQuantity = messageStorageService.getQueueSize();
 
         for(int i = 0; i < messageQuantity; i++){
+
             GPSRecordDTO record = messageStorageService.take();
+
             try {
+                Coordinates coordinates = new Coordinates();
+                coordinates.setLon(record.getLon());
+                coordinates.setLat(record.getLat());
+
+                String requestJson = coordinates.toJson();
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                HttpEntity<String> coord = new HttpEntity<String>(requestJson, headers);
+
+                ResponseEntity<Boolean> answer = restTemplate.exchange("http://localhost:8080/coords", HttpMethod.POST, coord, Boolean.class);
+
+                if(!answer.getBody()){
+                    log.info("Returning of coordinates to queue");
+                    messageStorageService.putFirst(record);
+                }
+
                 log.info(record.toJson());
+
             } catch (JsonProcessingException jpe) {
                 jpe.printStackTrace();
             }

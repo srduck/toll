@@ -38,4 +38,9 @@ public class MessageStorageService {
     public GPSRecordDTO take() throws InterruptedException {
         return queue.take();
     }
+
+    public void putFirst(GPSRecordDTO recordDTO) throws  InterruptedException{
+        queue.putFirst(recordDTO);
+    }
+
 }
