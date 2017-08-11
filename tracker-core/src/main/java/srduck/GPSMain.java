@@ -17,11 +17,10 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableScheduling
-@ComponentScan({"srduck.services", "srduck.controllers"})
+@ComponentScan("srduck.services")
 @PropertySource("classpath:/app.properties")
 public class GPSMain {
     public static void main (String... args) {
-//        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(GPSContext.class);
         SpringApplication.run(GPSMain.class);
     }
 

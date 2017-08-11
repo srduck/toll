@@ -9,10 +9,9 @@ import org.springframework.context.annotation.ComponentScan;
  */
 
 @SpringBootApplication
-@ComponentScan({"srduck.controllers"})
+@ComponentScan("srduck.controllers")
 public class MainServerCore {
-    public static void main (String... args){// throws Exception {
-//        MainCommon.main("MainCommon.main from MainServerCore.main");
+    public static void main (String... args){
         SpringApplication.run(MainServerCore.class);
     }
 }
