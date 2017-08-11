@@ -1,0 +1,34 @@
+.error {
+    color: red;
+}
+
+.success {
+    color: blue;
+}
+
+.left-column {
+    float:left;
+    width:150px;
+}
+
+.right-column{
+    float:right;
+}
+
+.form-string, .message{
+    padding:1em 0 0 2em;
+ }
+
+ .form-string{
+    width:350px;
+ }
+
+ .message{
+    width:100%;
+ }
+
+.form-string:after{
+     content: "";
+     display: block;
+     clear: both;
+}
