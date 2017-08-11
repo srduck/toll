@@ -63,6 +63,7 @@ project (':tracker-core') {
 project (':server-ui') {
     dependencies {
         compile project(':common')
+        compile("org.springframework.boot:spring-boot-starter-security")
     }
     task fatJar(type: OneJar) {
         mainClass = 'srduck.dto.MainServerUi'
