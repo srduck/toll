@@ -66,14 +66,6 @@ public class GPSService {
             distance = toolService.distance(oldLat,currentLat,oldLong,currentLong,oldAltitude,currentAltitude);
             instSpeed = distance / MEDIUM_TIME * 3600 / 1000;
 
-            /*log.info("count: " + count +
-                    "; lat: " + currentLat +
-                    "; lon: " + currentLong +
-                    "; bearing: " + bearing +
-                    "; distance: " + distance +
-                    "; instSpeed: " + instSpeed +
-                    "; altitude: " + currentAltitude);*/
-
             record.setLat(currentLat);
             record.setLon(currentLong);
             record.setBearing(bearing);

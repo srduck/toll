@@ -25,7 +25,7 @@ public class TrackerController {
     private PrintWriter printWriter;
 
     @PostConstruct
-    private void init(){
+    public void init(){
 
         try {
             printWriter = new PrintWriter("coordinates.txt");
@@ -53,7 +53,7 @@ public class TrackerController {
     }
 
     @PreDestroy
-    private void distroy(){
+    public void distroy(){
         printWriter.close();
     }
 }

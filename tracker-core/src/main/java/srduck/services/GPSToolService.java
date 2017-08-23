@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class GPSToolService {
 
-    public static double bearing(double lat1, double lon1, double lat2, double lon2){
+    public double bearing(double lat1, double lon1, double lat2, double lon2){
         double longitude1 = lon1;
         double longitude2 = lon2;
         double latitude1 = Math.toRadians(lat1);
@@ -34,7 +34,7 @@ public class GPSToolService {
      * el2 End altitude in meters
      * @returns Distance in Meters
      */
-    public static double distance(double lat1, double lat2, double lon1,
+    public double distance(double lat1, double lat2, double lon1,
                                   double lon2, double el1, double el2) {
 
         final int R = 6371; // Radius of the earth
