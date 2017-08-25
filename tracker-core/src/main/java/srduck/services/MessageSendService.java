@@ -21,14 +21,18 @@ public class MessageSendService {
 
     private static Logger log = LoggerFactory.getLogger(MessageSendService.class);
 
-    @Autowired
-    MessageStorageService messageStorageService;
 
-    @Autowired
-    RestTemplate restTemplate;
+    private final MessageStorageService messageStorageService;
+    private final RestTemplate restTemplate;
+
+    public MessageSendService(@Autowired MessageStorageService messageStorageService,
+                              @Autowired RestTemplate restTemplate){
+        this.messageStorageService = messageStorageService;
+        this.restTemplate = restTemplate;
+    }
 
     @Scheduled(cron = "${cron.prop.get}")
-    private void send () throws InterruptedException{
+    private byte send () throws InterruptedException{
 
         int messageQuantity = messageStorageService.getQueueSize();
 
@@ -51,8 +55,9 @@ public class MessageSendService {
 
                 if(!answer.getBody()){
                     returnToQueue(record, "Server Error");
-                    return;
+                    return 1;
                 }
+
 
                 log.info(record.toJson());
 
@@ -62,11 +67,11 @@ public class MessageSendService {
             }
             catch (ResourceAccessException ex){
                 returnToQueue(record, "ResourceAccessException");
-                return;
+                return -1;
             }
 
         }
-
+        return 0;
     }
 
     private void returnToQueue(GPSRecordDTO record, String error) throws InterruptedException{
