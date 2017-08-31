@@ -32,7 +32,7 @@ public class MessageSendService {
     }
 
     @Scheduled(cron = "${cron.prop.get}")
-    private byte send () throws InterruptedException{
+    private void send () throws InterruptedException{
 
         int messageQuantity = messageStorageService.getQueueSize();
 
@@ -55,9 +55,8 @@ public class MessageSendService {
 
                 if(!answer.getBody()){
                     returnToQueue(record, "Server Error");
-                    return 1;
+                    return;
                 }
-
 
                 log.info(record.toJson());
 
@@ -67,11 +66,9 @@ public class MessageSendService {
             }
             catch (ResourceAccessException ex){
                 returnToQueue(record, "ResourceAccessException");
-                return -1;
+                return;
             }
-
         }
-        return 0;
     }
 
     private void returnToQueue(GPSRecordDTO record, String error) throws InterruptedException{

@@ -1,5 +1,7 @@
 package srduck.services;
 
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
 import srduck.dto.GPSRecordDTO;
@@ -15,27 +17,36 @@ import static org.junit.Assert.assertEquals;
  */
 public class MessageSendServiceTest2 {
 
-    @Test
-    public void send() throws Exception {
+    MessageStorageService storageService;
+    RestTemplate restTemplate;
+    MessageSendService sendService;
+    BlockingDeque<GPSRecordDTO> queue;
+    GPSRecordDTO recordOne;
+    GPSRecordDTO recordTwo;
+    GPSRecordDTO recordThree;
+    Method send;
 
-        MessageStorageService storageService = new MessageStorageService();
-        RestTemplate restTemplate = new RestTemplate();
-        MessageSendService sendService = new MessageSendService(storageService, restTemplate);
-
-        BlockingDeque<GPSRecordDTO> queue;
+    @Before
+    public void setup () throws Exception{
+        storageService = new MessageStorageService();
+        restTemplate = new RestTemplate();
+        sendService = new MessageSendService(storageService, restTemplate);
         Field privateQueue = MessageStorageService.class.getDeclaredField("queue");
         privateQueue.setAccessible(true);
         queue = (BlockingDeque<GPSRecordDTO>) privateQueue.get(storageService);
 
-        GPSRecordDTO recordOne = new GPSRecordDTO();
+        send = MessageSendService.class.getDeclaredMethod("send");
+        send.setAccessible(true);
+
+        recordOne = new GPSRecordDTO();
         recordOne.setLat(51.769112);
         recordOne.setLon(85.736131);
 
-        GPSRecordDTO recordTwo = new GPSRecordDTO();
+        recordTwo = new GPSRecordDTO();
         recordTwo.setLat(51.76894);
         recordTwo.setLon(85.736078);
 
-        GPSRecordDTO recordThree = new GPSRecordDTO();
+        recordThree = new GPSRecordDTO();
         recordThree.setLat(51.768996);
         recordThree.setLon(85.736165);
 
@@ -44,21 +55,26 @@ public class MessageSendServiceTest2 {
         storageService.put(recordTwo);
         storageService.put(recordThree);
 
+        send.invoke(sendService);
+    }
 
-        Method send = MessageSendService.class.getDeclaredMethod("send");
-        send.setAccessible(true);
+    @Test
+    public void sendServerCoreUp() throws Exception {
 
-        byte status = (byte) send.invoke(sendService);
-        if (status == 0){
-            assertEquals(0, queue.size());
-        }
-        else if (status == -1) {
-            assertEquals(3, queue.size());
-            assertEquals(recordOne.getLat(), queue.getFirst().getLat(),0);
-            assertEquals(recordOne.getLon(), queue.getFirst().getLon(), 0);
-            assertEquals(recordThree.getLat(), queue.getLast().getLat(), 0);
-            assertEquals(recordThree.getLon(), queue.getLast().getLon(), 0);
-        }
+        assertEquals(0, queue.size());
+
+    }
+
+    @Test
+    @Ignore("Checking in case if server is down or error")
+    public void sendServerCoreDownOrError() throws Exception{
+
+        assertEquals(3, queue.size());
+        assertEquals(recordOne.getLat(), queue.getFirst().getLat(),0);
+        assertEquals(recordOne.getLon(), queue.getFirst().getLon(), 0);
+        assertEquals(recordThree.getLat(), queue.getLast().getLat(), 0);
+        assertEquals(recordThree.getLon(), queue.getLast().getLon(), 0);
+
     }
 
 }
