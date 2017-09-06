@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import srduck.services.MyUserDetailService;
 
 /**
  * Created by igor on 12.08.2017.
@@ -13,6 +14,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    MyUserDetailService userDetailService;
+
     @Override
     protected void configure (HttpSecurity http) throws Exception{
         http
@@ -32,13 +37,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal (AuthenticationManagerBuilder auth) throws Exception{
         auth
-                .inMemoryAuthentication()
-                .withUser("guest").password("").roles("")
-                .and()
-                .withUser("client").password("client").roles("CLIENT")
-                .and()
-                .withUser("manager").password("manager").roles("CLIENT","MANAGER")
-                .and()
-                .withUser("root").password("root").roles("CLIENT","MANAGER","ROOT");
+                .userDetailsService(userDetailService);
     }
 }

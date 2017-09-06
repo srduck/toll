@@ -16,11 +16,11 @@ public class TrackerControllerTest {
     public void getCoordinates() throws Exception {
 
         TrackerController trackerController = new TrackerController();
-        trackerController.init();
+//        trackerController.init();
         assertTrue(trackerController.getCoordinates("{\"lat\":47.345,\"lon\":54.3345}"));
         assertFalse(trackerController.getCoordinates("I'm your nightmare, controller!"));
         assertFalse(trackerController.getCoordinates(null));
-        trackerController.distroy();
+//        trackerController.distroy();
     }
 
     @After

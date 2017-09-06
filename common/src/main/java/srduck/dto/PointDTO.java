@@ -1,19 +1,51 @@
 package srduck.dto;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+
 /**
  * Created by igor on 07.07.2017.
  */
-public class PointDTO extends Coordinates{
-
-    private String autoId;
+@Entity(name="POINT_DTO")
+@IdClass(IdPointDTO.class)
+public class PointDTO {
+    @Id
+    @Column(name="TRACKER_ID")
+    private String trackerId;
+    @Id
     private long time;
+    private double lon;
+    private double lat;
+    private double bearing;
+    private double instSpeed;
 
-    public String getAutoId() {
-        return autoId;
+    public double getBearing() {
+        return bearing;
     }
 
-    public void setAutoId(String autoId) {
-        this.autoId = autoId;
+    public void setBearing(double bearing) {
+        this.bearing = bearing;
+    }
+
+    public double getInstSpeed() {
+        return instSpeed;
+    }
+
+    public void setInstSpeed(double instSpeed) {
+        this.instSpeed = instSpeed;
+    }
+
+    public String getTrackerId() {
+        return trackerId;
+    }
+
+    public void setTrackerId(String trackerId) {
+        this.trackerId = trackerId;
     }
 
     public void setTime(long time) {
@@ -24,13 +56,36 @@ public class PointDTO extends Coordinates{
         return time;
     }
 
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public String toJson() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(this);
+    }
+
     @Override
     public String toString() {
         return "PointDTO{" +
-                "lat=" + this.getLat() +
-                ", lon=" + this.getLon() +
-                ", autoId='" + autoId + '\'' +
+                "trackerId='" + trackerId + '\'' +
                 ", time=" + time +
+                ", lon=" + lon +
+                ", lat=" + lat +
+                ", bearing=" + bearing +
+                ", instSpeed=" + instSpeed +
                 '}';
     }
 }

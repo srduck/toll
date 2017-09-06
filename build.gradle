@@ -34,6 +34,9 @@ subprojects{
 project(':common') {
     dependencies{
         compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.7'
+        compile("org.springframework.boot:spring-boot-starter-data-jpa")
+
+        compile group: 'com.h2database', name: 'h2', version: '1.4.196'
     }
     task fatJar(type: OneJar) {
         mainClass = 'srduck.dto.MainCommon'
@@ -43,6 +46,8 @@ project(':common') {
 project (':server-core') {
     dependencies {
         compile project(':common')
+
+        compile group: "org.liquibase", name: "liquibase-core", version: "3.5.3"
     }
     task fatJar(type: OneJar){
         mainClass = 'srduck.dto.MainServerCore'
@@ -54,6 +59,7 @@ project (':tracker-core') {
         compile project(':common')
         // https://mvnrepository.com/artifact/de.micromata.jak/JavaAPIforKml
         compile group: 'de.micromata.jak', name: 'JavaAPIforKml', version: '2.2.1'
+
     }
     task fatJar(type: OneJar) {
         mainClass = 'srduck.dto.MainTrackerCore'
@@ -63,7 +69,7 @@ project (':tracker-core') {
 
 project (':server-ui') {
     dependencies {
-        compile project(':common')
+        compile project(':server-core')
         compile("org.springframework.boot:spring-boot-starter-security")
     }
     task fatJar(type: OneJar) {

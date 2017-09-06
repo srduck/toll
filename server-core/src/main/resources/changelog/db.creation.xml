@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+    <changeSet id="db.creation" author="srduck">
+        <sql>
+
+            CREATE TABLE POINT_DTO
+            (
+                tracker_id VARCHAR(12) NOT NULL,
+                time BIGINT NOT NULL,
+                lon DOUBLE NOT NULL,
+                lat DOUBLE NOT NULL,
+                inst_speed DOUBLE,
+                bearing DOUBLE,
+                CONSTRAINT POINT_DTO_pk PRIMARY KEY (tracker_id, time)
+            )
+
+        </sql>
+        <sql>
+            CREATE TABLE ROLES
+            (
+                name VARCHAR(32) PRIMARY KEY NOT NULL
+            )
+        </sql>
+
+        <sql>
+            CREATE TABLE USERS
+            (
+                login VARCHAR(32) PRIMARY KEY NOT NULL,
+                password VARCHAR(32)
+            )
+        </sql>
+        <sql>
+            CREATE TABLE ROLES_OF_USERS
+            (
+                login VARCHAR(32) NOT NULL,
+                name VARCHAR(32) NOT NULL,
+                CONSTRAINT USER_ROLE_pk PRIMARY KEY (login, name),
+                CONSTRAINT ROLES_OF_USERS_USERS_LOGIN_fk FOREIGN KEY (login) REFERENCES USERS (login),
+                CONSTRAINT ROLES_OF_USERS_ROLES_NAME_fk FOREIGN KEY (name) REFERENCES ROLES (name)
+            )
+        </sql>
+        <sql>
+            INSERT INTO ROLES values('ROOT')
+        </sql>
+        <sql>
+            INSERT INTO ROLES values('MANAGER')
+        </sql>
+        <sql>
+            INSERT INTO ROLES values('CLIENT')
+        </sql>
+        <sql>
+            INSERT INTO USERS values('root','root')
+        </sql>
+        <sql>
+            INSERT INTO USERS values('manager','manager')
+        </sql>
+        <sql>
+            INSERT INTO USERS values('client','client')
+        </sql>
+        <sql>
+            INSERT INTO  USERS values('guest', '')
+        </sql>
+        <sql>
+            INSERT INTO  ROLES_OF_USERS values('root','ROOT')
+        </sql>
+        <sql>
+            INSERT INTO  ROLES_OF_USERS values('root','MANAGER')
+        </sql>
+        <sql>
+            INSERT INTO  ROLES_OF_USERS values('root','CLIENT')
+        </sql>
+        <sql>
+            INSERT INTO  ROLES_OF_USERS values('manager','MANAGER')
+        </sql>
+        <sql>
+            INSERT INTO  ROLES_OF_USERS values('manager','CLIENT')
+        </sql>
+        <sql>
+            INSERT INTO  ROLES_OF_USERS values('client','CLIENT')
+        </sql>
+
+    </changeSet>
+
+</databaseChangeLog>
