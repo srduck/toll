@@ -1,13 +1,17 @@
 package srduck.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import srduck.dto.IdPointDTO;
 import srduck.dto.PointDTO;
 import srduck.repositories.PointDTORepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class PointDTOService {
 
 
@@ -28,5 +32,22 @@ public class PointDTOService {
 
     public List<PointDTO> read(){
         return (List<PointDTO>)pointDTORepository.findAll();
+    }
+
+    public PointDTO findById(IdPointDTO idPointDTO){
+        return pointDTORepository.findByTrackerIdAndTime(idPointDTO.getTrackerId(), idPointDTO.getTime());
+    }
+
+    public List<PointDTO> findByTimeGreaterThan(long time){
+        return pointDTORepository.findByTimeGreaterThan(time);
+    }
+
+    public List<PointDTO> getLastNRecords(String trackerId, int n){
+        return pointDTORepository.findByTrackerIdOrderByTimeDesc(trackerId, new PageRequest(0,n));
+    }
+
+
+    public int countByTimeGreaterThenAndTrackerId(IdPointDTO idPointDTO){
+        return pointDTORepository.countByTimeGreaterThanAndTrackerId(idPointDTO.getTime(), idPointDTO.getTrackerId());
     }
 }

@@ -5,9 +5,12 @@ import org.springframework.stereotype.Service;
 import srduck.dao.Role;
 import srduck.repositories.RoleRepository;
 
+
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class RoleService {
 
     @Autowired

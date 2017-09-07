@@ -9,8 +9,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.client.ResourceAccessException;
-import srduck.dto.Coordinates;
-import srduck.dto.GPSRecordDTO;
+import srduck.dto.PointDTO;
+
+import java.util.List;
 
 
 /**
@@ -24,6 +25,7 @@ public class MessageSendService {
 
     private final MessageStorageService messageStorageService;
     private final RestTemplate restTemplate;
+    private long time;
 
     public MessageSendService(@Autowired MessageStorageService messageStorageService,
                               @Autowired RestTemplate restTemplate){
@@ -34,18 +36,13 @@ public class MessageSendService {
     @Scheduled(cron = "${cron.prop.get}")
     private void send () throws InterruptedException{
 
-        int messageQuantity = messageStorageService.getQueueSize();
+        List<PointDTO> baseTail = messageStorageService.getTail(time);
 
-        for(int i = 0; i < messageQuantity; i++){
-
-            GPSRecordDTO record = messageStorageService.take();
-
+        for (int i = 0; i < baseTail.size(); i++){
+            PointDTO record = baseTail.get(i);
             try {
-                Coordinates coordinates = new Coordinates();
-                coordinates.setLon(record.getLon());
-                coordinates.setLat(record.getLat());
 
-                String requestJson = coordinates.toJson();
+                String requestJson = record.toJson();
 
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_JSON);
@@ -54,10 +51,10 @@ public class MessageSendService {
                 ResponseEntity<Boolean> answer = restTemplate.exchange("http://localhost:8080/coords", HttpMethod.POST, coord, Boolean.class);
 
                 if(!answer.getBody()){
-                    returnToQueue(record, "Server Error");
+                    log.info("Server Error");
                     return;
                 }
-
+                time = record.getTime();
                 log.info(record.toJson());
 
             }
@@ -65,15 +62,11 @@ public class MessageSendService {
                 jpe.printStackTrace();
             }
             catch (ResourceAccessException ex){
-                returnToQueue(record, "ResourceAccessException");
+                log.info("ResourceAccessException");
                 return;
             }
         }
     }
 
-    private void returnToQueue(GPSRecordDTO record, String error) throws InterruptedException{
-        log.info("Returning of coordinates to queue : " + error);
-        messageStorageService.putFirst(record);
-    }
 
 }

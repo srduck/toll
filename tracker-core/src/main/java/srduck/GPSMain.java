@@ -18,7 +18,6 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableScheduling
 @ComponentScan("srduck.services")
-@PropertySource("classpath:/app.properties")
 public class GPSMain {
     public static void main (String... args) {
         SpringApplication.run(GPSMain.class);

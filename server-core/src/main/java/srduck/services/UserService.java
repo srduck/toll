@@ -5,9 +5,11 @@ import org.springframework.stereotype.Service;
 import srduck.dao.User;
 import srduck.repositories.UserRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserService {
 
     @Autowired

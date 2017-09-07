@@ -59,7 +59,7 @@ project (':tracker-core') {
         compile project(':common')
         // https://mvnrepository.com/artifact/de.micromata.jak/JavaAPIforKml
         compile group: 'de.micromata.jak', name: 'JavaAPIforKml', version: '2.2.1'
-
+        compile group: "org.liquibase", name: "liquibase-core", version: "3.5.3"
     }
     task fatJar(type: OneJar) {
         mainClass = 'srduck.dto.MainTrackerCore'

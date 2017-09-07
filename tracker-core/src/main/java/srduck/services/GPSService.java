@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import srduck.dto.GPSRecordDTO;
+import srduck.dto.PointDTO;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -22,6 +22,7 @@ public class GPSService {
     private static final double MEDIUM_TIME = (37*3600+41*60+22)/12274;
     //Отношение фута к метру
     private static final double FOOT_TO_METER = 0.3048;
+    private static final String TRACKER_ID = "as353bk";
 
     private static Logger log = LoggerFactory.getLogger(GPSService.class);
 
@@ -31,7 +32,7 @@ public class GPSService {
     private double oldLat;
     private double oldLong;
     private double oldAltitude;
-    private GPSRecordDTO record;
+    private PointDTO record;
 
     @Autowired
     GPSToolService toolService;
@@ -45,7 +46,7 @@ public class GPSService {
         size = coordinateList.size();
         oldLat = coordinateList.get(0).getLatitude();
         oldLong = coordinateList.get(0).getLongitude();
-        record = new GPSRecordDTO();
+        record = new PointDTO();
         oldAltitude = coordinateList.get(0).getAltitude() * FOOT_TO_METER;
     }
 
@@ -70,6 +71,8 @@ public class GPSService {
             record.setLon(currentLong);
             record.setBearing(bearing);
             record.setInstSpeed(instSpeed);
+            record.setTrackerId(TRACKER_ID);
+            record.setTime(System.currentTimeMillis());
 
             oldLat = currentLat;
             oldLong = currentLong;
