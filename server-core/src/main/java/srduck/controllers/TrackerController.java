@@ -4,16 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import srduck.dto.IdPointDTO;
+import org.springframework.web.bind.annotation.*;
 import srduck.dto.PointDTO;
 import srduck.requests.ConstraintTrack;
 import srduck.services.PointDTOService;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,12 +39,13 @@ public class TrackerController {
         }
     }
 
-    @RequestMapping(value="/track", method = RequestMethod.POST, consumes = "application/json", produces ="application/json")
+    @CrossOrigin(origins = "http://localhost:8092", maxAge = 3600)
+    @RequestMapping(value="/track", method = RequestMethod.POST, produces ="application/json")
     public List<PointDTO> getLastNRecords(@RequestBody String jsonTrack){
         try {
             ObjectMapper mapper = new ObjectMapper();
             ConstraintTrack constraintTrack = mapper.readValue(jsonTrack, ConstraintTrack.class);
-            List<PointDTO> points =  pointDTOService.getLastNRecords(constraintTrack.getTrackerId(),constraintTrack.getPointConunt());
+            List<PointDTO> points =  pointDTOService.getLastNRecords(constraintTrack.getTrackerId(),constraintTrack.getPointCount());
             Collections.reverse(points);
             return points;
         } catch (Exception e) {

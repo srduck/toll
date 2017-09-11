@@ -3,7 +3,7 @@ package srduck.requests;
 public class ConstraintTrack {
 
     String trackerId;
-    int pointConunt;
+    int pointCount;
 
     public String getTrackerId() {
         return trackerId;
@@ -13,12 +13,12 @@ public class ConstraintTrack {
         this.trackerId = trackerId;
     }
 
-    public int getPointConunt() {
-        return pointConunt;
+    public int getPointCount() {
+        return pointCount;
     }
 
     public void setPointConunt(int pointConunt) {
-        this.pointConunt = pointConunt;
+        this.pointCount = pointConunt;
     }
 
 
