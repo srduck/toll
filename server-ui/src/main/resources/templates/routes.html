@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8"></meta>
     <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/routes.js"></script>
+
     <link rel="stylesheet" type="text/css" href="css/styles.css"></link>
     <title>Маршруты</title>
 </head>
@@ -11,16 +13,16 @@
 <div class="center around_inputs">
     <div class="inputs">
         <div class="left label">Номер устройства:</div>
-        <div class="left"><input id="trackerIdInput" type="text" value="as353bk"/></div>
+        <div class="left"><input id="trackerIdInput" type="text" value="as353bk" /></div>
         <div class="left label">Количество отметок:</div>
-        <div class="left"><input id="pointCountInput" type="text" value="10"/></div>
-        <div class="left"><input id="getPoints" value="Показать" type="button"/></div>
+        <div class="left"><input id="pointCountInput" type="text" value="10" /></div>
+        <div class="left"><input id="getPoints" value="Показать" type="button" /></div>
         <div class="clear"></div>
     </div>
 
 </div>
 <div id="around_table" class="center">
-    <table id="markList" cellspacing="0" border="1">
+    <table id="entityList" cellspacing="0" border="1">
         <thead>
         <tr>
             <th class="first_element">Номер</th>
@@ -39,78 +41,41 @@
 
 
 </div>
+<div class="center around_inputs">
+    <div class="inputs">
+        <div class="left margin_rl_25"><input id="create" value="Создать" type="button" /></div>
+        <div class="left margin_rl_25"><input id="edit" value="Редактировать" disabled="disabled" type="button" /></div>
+        <div class="left margin_rl_25"><input id="delete" value="Удалить" disabled="disabled" type="button" /></div>
+        <div class="clear"></div>
+    </div>
 
+</div>
+<div id="entity_box">
+    <div id="box_content">
+        <div class='label'>Номер устройства:</div>
+        <div><input id="idInput" type="text" /></div>
+        <div class='label'>Отсечка времени: </div>
+        <div><input id="timeInput" type="text" /></div>
+        <div class='label'>Широта: </div>
+        <div><input id="latInput" type="text" /></div>
+        <div class='label'>Долгота: </div>
+        <div><input id="lonInput" type="text" /></div>
+        <div class='label'>Угловая скорость: </div>
+        <div><input id="speedInput" type="text" /></div>
+        <div class='label'>Азимут: </div>
+        <div><input id="bearingInput" type="text" /></div>
+    </div>
+    <div id="box_footer">
+        <div class="right margin_15"><input id="cancel" value="Отмена"  type="button" /></div>
+        <div class="right margin_15"><input id="ok" value="OK" type="button" /></div>
+        <input id="boxType" type="hidden" value=""/>
+        <div class="clear"></div>
+    </div>
+</div>
+<div id="back_shadow"></div>
 <script>
 
-function headerWidth(){
-    var $table = $('table'),
-    $bodyCells = $table.find('tbody tr:first').children(),
-    colWidth;
 
-	colWidth = $bodyCells.map(function() {
-		return $(this).width();
-	}).get();
-
-	$table.find('thead tr').children().each(function(i, v) {
-		$(v).width(colWidth[i]);
-	});
-}
-function rest(trackerId, quantity){
-
-    jQuery.support.cors = true;
-
-    $.ajax(
-    {
-        type: 'POST',
-        url: 'http://localhost:8080/track',
-        data: '{"trackerId":"' + trackerId + '","pointCount":' + quantity + '}',
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (result) {
-
-            var trHTML = '';
-
-            $.each(result, function(k, v){
-
-                trHTML += '<tr id="' + k + '"><td class="first_element">' + v.trackerId  + '</td>' +
-                              '<td>' + v.time + '</td>' +
-                              '<td>' + v.lat + '</td>' +
-                              '<td>' + v.lon + '</td>' +
-                              '<td>' + v.instSpeed + '</td>' +
-                              '<td>' + v.bearing + '</td></tr>';
-            });
-
-            $('#markList tbody').html(trHTML);
-            headerWidth();
-
-        },
-
-       error: function(jqXHR, textStatus, errorThrown){
-          alert($(jqXHR).html() + " " +  textStatus + ": " + errorThrown);
-      }
-    });
-}
-
-$(document).ready(function(){
-
-
-    rest( $("#trackerIdInput").val(), $("#pointCountInput").val());
-
-    $("#getPoints").on("click",function(){
-        rest( $("#trackerIdInput").val(), $("#pointCountInput").val());
-    })
-
-    $("tbody").on("click", "tr", function(){
-		if ($(this).hasClass("selected")){
-			$(this).removeClass("selected");
-		}
-		else{
-			$("tbody tr").removeClass("selected");
-			$(this).addClass("selected");
-		}
-	})
-
-})
 
 </script>
 
