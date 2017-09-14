@@ -11,5 +11,4 @@ public interface PointDTORepository extends CrudRepository<PointDTO,IdPointDTO> 
     public PointDTO findByTrackerIdAndTime(String trackerId, long time);
     public List<PointDTO> findByTimeGreaterThan(long time);
     public List<PointDTO> findByTrackerIdOrderByTimeDesc(String trackerId, Pageable pageable);
-    public int countByTimeGreaterThanAndTrackerId(long time, String trackerId);
 }

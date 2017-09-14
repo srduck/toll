@@ -164,3 +164,11 @@ tbody {
 #box_footer input[type="button"] {
     margin:22px 20px 0 0;
 }
+
+.margin_t20_b10{
+    margin: 20px 0 10px;
+}
+
+.bold{
+    font-weight:bold;
+}

@@ -46,8 +46,4 @@ public class PointDTOService {
         return pointDTORepository.findByTrackerIdOrderByTimeDesc(trackerId, new PageRequest(0,n));
     }
 
-
-    public int countByTimeGreaterThenAndTrackerId(IdPointDTO idPointDTO){
-        return pointDTORepository.countByTimeGreaterThanAndTrackerId(idPointDTO.getTime(), idPointDTO.getTrackerId());
-    }
-}
+   }

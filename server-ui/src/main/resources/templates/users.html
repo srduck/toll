@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="UTF-8"></meta>
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/users.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/styles.css"></link>
+    <title>Пользователи</title>
+</head>
+<body>
+<div class="center"><h1>Пользователи</h1></div>
+
+<div id="around_table" class="center">
+    <table id="entityList" border="1" cellspacing="0">
+        <thead><tr>
+            <th class="first_element">Логин</th>
+            <th class="last_element">Пароль</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+
+</div>
+<div class="center around_inputs">
+    <div class="inputs">
+        <div class="left margin_rl_25"><input id="create" value="Создать" type="button" /></div>
+        <div class="left margin_rl_25"><input id="edit" value="Редактировать" type="button" /></div>
+        <div class="left margin_rl_25"><input id="delete" value="Удалить" type="button" /></div>
+        <div class="clear"></div>
+    </div>
+
+</div>
+<div id="entity_box" style="width:400px; height:400px;">
+    <div id="box_content">
+        <div class="bold margin_t20_b10">Логин:</div>
+        <div><input id="loginInput" type="text" /></div>
+        <div class="bold margin_t20_b10">Пароль: </div>
+        <div><input id="passwordInput" type="text" /></div>
+        <div class="bold margin_t20_b10">Роли:</div>
+        <div class='left margin_rl_25'>
+            <div class="label">CLIENT</div>
+            <div><input id="clientCheckBox" type="checkbox" /></div>
+        </div>
+        <div class='left margin_rl_25'>
+            <div class="label">MANAGER</div>
+            <div><input id="managerCheckBox" type="checkbox" /></div>
+        </div>
+        <div class='left margin_rl_25'>
+            <div class="label">ROOT</div>
+            <div><input id="rootCheckBox" type="checkbox" /></div>
+        </div>
+        <div class='clear'></div>
+    </div>
+    <div id="box_footer">
+        <div class="right margin_15"><input id="cancel" value="Отмена" type="button" /></div>
+        <div class="right margin_15"><input id="ok" value="OK" type="button" /></div>
+        <input id="boxType" type="hidden" value=""/>
+        <div class="clear"></div>
+    </div>
+</div>
+<div id="back_shadow"></div>
+<script>
+
+
+</script>
+
+</body></html>

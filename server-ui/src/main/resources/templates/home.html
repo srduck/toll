@@ -16,6 +16,7 @@
 
     <div  th:if="${#httpServletRequest.isUserInRole('ROOT')}">
         <div class="message"><a href="registerManager">Регистрация менеджера</a></div>
+        <div class="message"><a href="users">Управление пользователями</a></div>
     </div>
     <div th:if="${#httpServletRequest.isUserInRole('MANAGER')}">
         <div class="message"><a href="registerClient">Регистрация клиента</a></div>

@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**","/img/**","/js/**","/error").permitAll()
                 .antMatchers("/payments*","/routes*").hasRole("CLIENT")
                 .antMatchers("/registerClient*").hasRole("MANAGER")
-                .antMatchers("/registerManager*").hasRole("ROOT")
+                .antMatchers("/registerManager*", "/users").hasRole("ROOT")
                 .antMatchers("/home").authenticated()
                 .and()
                 .formLogin()
