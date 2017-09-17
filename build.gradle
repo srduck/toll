@@ -86,6 +86,8 @@ project (':tracker-ui') {
     }
 }
 
+project (':parallel'){
 
+}
 
 
