@@ -17,24 +17,19 @@
                 inst_speed DOUBLE,
                 bearing DOUBLE,
                 CONSTRAINT POINT_DTO_pk PRIMARY KEY (tracker_id, time)
-            )
+            );
 
-        </sql>
-        <sql>
             CREATE TABLE ROLES
             (
                 name VARCHAR(32) PRIMARY KEY NOT NULL
-            )
-        </sql>
+            );
 
-        <sql>
             CREATE TABLE USERS
             (
                 login VARCHAR(32) PRIMARY KEY NOT NULL,
                 password VARCHAR(32)
-            )
-        </sql>
-        <sql>
+            );
+
             CREATE TABLE ROLES_OF_USERS
             (
             login VARCHAR(32) NOT NULL,
@@ -42,46 +37,34 @@
             CONSTRAINT USER_ROLE_pk PRIMARY KEY (login, name),
             CONSTRAINT ROLES_OF_USERS_USERS_LOGIN_fk FOREIGN KEY (login) REFERENCES USERS (login) ON DELETE CASCADE ON UPDATE CASCADE,
             CONSTRAINT ROLES_OF_USERS_ROLES_NAME_fk FOREIGN KEY (name) REFERENCES ROLES (name) ON DELETE CASCADE ON UPDATE CASCADE
-            )
-        </sql>
-        <sql>
-            INSERT INTO ROLES values('ROOT')
-        </sql>
-        <sql>
-            INSERT INTO ROLES values('MANAGER')
-        </sql>
-        <sql>
-            INSERT INTO ROLES values('CLIENT')
-        </sql>
-        <sql>
-            INSERT INTO USERS values('root','root')
-        </sql>
-        <sql>
-            INSERT INTO USERS values('manager','manager')
-        </sql>
-        <sql>
-            INSERT INTO USERS values('client','client')
-        </sql>
-        <sql>
-            INSERT INTO  USERS values('guest', '')
-        </sql>
-        <sql>
-            INSERT INTO  ROLES_OF_USERS values('root','ROOT')
-        </sql>
-        <sql>
-            INSERT INTO  ROLES_OF_USERS values('root','MANAGER')
-        </sql>
-        <sql>
-            INSERT INTO  ROLES_OF_USERS values('root','CLIENT')
-        </sql>
-        <sql>
-            INSERT INTO  ROLES_OF_USERS values('manager','MANAGER')
-        </sql>
-        <sql>
-            INSERT INTO  ROLES_OF_USERS values('manager','CLIENT')
-        </sql>
-        <sql>
-            INSERT INTO  ROLES_OF_USERS values('client','CLIENT')
+            );
+
+            INSERT INTO ROLES values('ROOT');
+
+            INSERT INTO ROLES values('MANAGER');
+
+            INSERT INTO ROLES values('CLIENT');
+
+            INSERT INTO USERS values('root','root');
+
+            INSERT INTO USERS values('manager','manager');
+
+            INSERT INTO USERS values('client','client');
+
+            INSERT INTO  USERS values('guest', '');
+
+            INSERT INTO  ROLES_OF_USERS values('root','ROOT');
+
+            INSERT INTO  ROLES_OF_USERS values('root','MANAGER');
+
+            INSERT INTO  ROLES_OF_USERS values('root','CLIENT');
+
+            INSERT INTO  ROLES_OF_USERS values('manager','MANAGER');
+
+            INSERT INTO  ROLES_OF_USERS values('manager','CLIENT');
+
+            INSERT INTO  ROLES_OF_USERS values('client','CLIENT');
+
         </sql>
 
     </changeSet>

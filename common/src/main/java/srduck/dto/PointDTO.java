@@ -88,4 +88,22 @@ public class PointDTO {
                 ", instSpeed=" + instSpeed +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PointDTO pointDTO = (PointDTO) o;
+
+        if (time != pointDTO.time) return false;
+        return trackerId.equals(pointDTO.trackerId);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = trackerId.hashCode();
+        result = 31 * result + (int) (time ^ (time >>> 32));
+        return result;
+    }
 }
