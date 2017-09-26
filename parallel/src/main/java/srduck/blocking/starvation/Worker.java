@@ -5,14 +5,19 @@ package srduck.blocking.starvation;
  */
 public class Worker {
 
-    public synchronized void work(String name){
+    public  void work(String name){
         while (true) {
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+
+            synchronized (this) {
+                System.out.println("Hi! My name is " + name + ". I'm working! And i like this work!");
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("My name is " + name + ". I'm stoping for a little while! Bye.");
             }
-            System.out.println("My name is " + name + ". And i like this work!");
+
         }
     }
 }

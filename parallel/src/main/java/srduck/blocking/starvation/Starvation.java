@@ -5,13 +5,20 @@ package srduck.blocking.starvation;
  */
 public class Starvation {
     public static void main(String ... args){
+
         Worker worker = new Worker();
+
         GreedyThread[] greedy = { new GreedyThread("First Greedy", worker),
-                            new GreedyThread("Second Greedy", worker),
-                            new GreedyThread("Third Greedy", worker)};
-        for (int i = 0; i < greedy.length; i++){
+                new GreedyThread("Second Greedy", worker),
+                new GreedyThread("Third Greedy", worker)};
+
+        greedy[0].setPriority(Thread.MAX_PRIORITY);
+        greedy[1].setPriority(Thread.MIN_PRIORITY);
+        greedy[2].setPriority(Thread.MIN_PRIORITY);
+
+        for (int i = 0; i < 3; i++){
             greedy[i].start();
-            System.out.println(greedy[i].getThreadName() + " started");
         }
+
     }
 }

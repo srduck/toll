@@ -4,22 +4,24 @@ package srduck.blocking.livelock;
  * Created by igor on 16.09.2017.
  */
 public class LiveLock {
-    static final WaitingPerson firstPerson = new WaitingPerson("Первый");
+    static final LazyWorker firstWorker = new LazyWorker("Первый");
 
-    static final WaitingPerson secondPerson = new WaitingPerson("Второй");
+    static final LazyWorker secondWorker = new LazyWorker("Второй");
 
     public static void main(String[] args) {
 
+        Hummer hummer = new Hummer(firstWorker);
+
         new Thread(new Runnable() {
             public void run() {
-                firstPerson.waitStart(secondPerson);
+                firstWorker.waitStart(secondWorker, hummer);
             }
         }).start();
 
 
         new Thread(new Runnable() {
             public void run() {
-                secondPerson.waitStart(firstPerson);
+                secondWorker.waitStart(firstWorker, hummer);
             }
         }).start();
 
